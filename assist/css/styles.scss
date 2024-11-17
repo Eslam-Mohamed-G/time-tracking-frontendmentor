@@ -1,0 +1,310 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap");
+// Colors
+$blue:                  hsl(246, 80%, 60%);
+$violet-social:         hsl(264, 64%, 52%);
+$light-red-work:        hsl(15, 100%, 70%);
+$soft-blue-play:        hsl(195, 74%, 62%);
+$light-red-study:       hsl(348, 100%, 68%);
+$lime-green-exercise:   hsl(145, 58%, 55%);
+$soft-orange-self-care: hsl(43, 84%, 65%);
+
+// Neutral Colors
+$dark-blue:        hsl(235, 46%, 20%);
+$pale-blue:        hsl(236, 100%, 87%);
+$blue-hover:       hsl(235, 33%, 35%);
+$text-color:       hsl(0, 0%, 100%);
+$desaturated-blue: hsl(235, 45%, 61%);
+$very-dark-blue:   hsl(226, 43%, 10%);
+
+// Typography
+$font-family: 'Rubik', sans-serif;
+$font-size-body: 18px;
+$font-weight-soft: 100;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+// Example usage
+body {
+  background-color: $very-dark-blue;
+  font-size: $font-size-body;
+  font-family: $font-family;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  @media (min-width:900px) {
+    height: 100vh;
+  }
+}
+
+// General Styles
+.parent {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  width: 70%;
+  
+  .div1 {
+    grid-area: 1 / 1 / 3 / 2;
+  }
+
+  @for $i from 2 through 7 {
+    .div#{$i} {
+      height: fit-content;
+      grid-area: if($i <= 4, 1 / $i / 2 / ($i + 1), 2 / ($i - 3) / 3 / ($i - 2));
+    }
+  }
+  
+  @media (max-width:768px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(7, 1fr);
+      grid-row-gap: 20px;
+      width: 90%;
+    
+      @for $i from 1 through 7 {
+        .div#{$i} {
+          grid-area: #{$i} / 1 / #{($i + 1)} / 2;
+        }
+      }
+    }
+}
+
+// Specific Div Styling
+$div-styles: (
+  "div2": $light-red-work,
+  "div3": $soft-blue-play,
+  "div4": $light-red-study,
+  "div5": $lime-green-exercise,
+  "div6": $violet-social,
+  "div7": $soft-orange-self-care
+);
+
+// Mixins
+@mixin gradient-bg($color) {
+  background: linear-gradient($color 60px, transparent);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+@mixin content-styling {
+  background-color: $dark-blue;
+  border-radius: 15px;
+  padding: 20px;
+  transition: all ease-in-out 0.3s;
+  cursor: pointer;
+  position: relative;
+  bottom: 0px;
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    
+    img {
+      height: 100%;
+      width: auto;
+      object-fit: cover;
+    }
+  }
+
+  .box {
+    p:first-child {
+      color: $text-color;
+      font-size: 60px;
+      font-weight: $font-weight-soft;
+
+      @media (max-width: 768px) {
+        font-size: 30px; 
+      }
+    }
+    
+    p {
+      color: $desaturated-blue;
+      font-size: calc($font-size-body - 3px);
+    }
+  }
+}
+
+
+@mixin content-hover {
+  &:hover {
+    background-color: $blue-hover;
+  }
+}
+
+
+
+@each $name, $color in $div-styles {
+  .#{$name} {
+    @include gradient-bg($color);
+
+    .container {
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+
+      picture {
+        height: 43px;
+      }
+      
+      .content {
+        @include content-styling;
+        @include content-hover;
+      }
+    }
+  }
+}
+
+  picture{
+    display: block;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+    position: relative;
+  
+    img{
+      display: block;
+      position: absolute;
+      top: -13px;
+      right: 15px;
+    }
+  }
+  
+  
+  .div1{
+    background-color: $dark-blue;
+    border-radius: 15px;
+    overflow: hidden;
+  
+    .container{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-content: space-between;
+  
+      .content{
+        background-color: $blue;
+        color: $text-color;
+        border-radius: 15px;
+        padding: 30px;
+        padding-bottom: 50px;
+  
+        img{
+          display: block;
+          width: 70px;
+          height: 70px;
+          border: 2px solid $text-color;
+          border-radius: 50%;
+          margin-bottom: 40px;
+        }
+  
+        p{
+          color: $desaturated-blue;
+          font-weight: 700;
+          font-size: calc($font-size-body - 3px);
+        }
+        h1{
+          font-size: 40px;
+          font-family: $font-family;
+          font-weight: $font-weight-soft;
+          line-height: 1;
+        }
+        
+      }
+    }
+  
+    .btn-content{
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 30px;
+      width: fit-content;
+      background-color: transparent;
+  
+      .btn{
+        all: unset;
+        cursor: pointer;
+        color: $desaturated-blue;
+        transition: all ease-in-out .3s;
+      }
+      .btn:hover{
+        color: $text-color;
+      }
+      .active{
+        color: $text-color;
+      }
+    }
+  }
+  
+  // exercise
+  .div5{
+    .container{
+      picture{
+        height: 43px;
+        img{
+          top: 0px;
+        }
+      }
+    }
+  }
+
+
+
+@media(max-width: 768px) {
+  .div1 {
+    .container {
+      .content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        padding: 15px;
+        min-height: 100px;
+
+        img {
+          width: 50px;
+          height: 50px;
+          margin: 0;
+        }
+
+        div {
+          h1 {
+            font-size: 20px;
+          }
+        }
+      }
+
+      .btn-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        margin: 20px auto 0;
+        padding: 0;
+      }
+    }
+  }
+
+  .box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+
+
+    
